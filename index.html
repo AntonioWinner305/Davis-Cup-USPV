@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Copa Um Saque para a Vida</title>
+<title>Davis Cup USPV · Copa Um Saque para a Vida</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Poppins:wght@600;700;800&display=swap" rel="stylesheet">
@@ -199,6 +199,10 @@
   .score-inp{text-align:center;padding:8px;font-weight:700}
   #imgLightbox{align-items:center}
   #imgLightbox img{max-width:92vw;max-height:86vh;border-radius:16px;box-shadow:0 30px 70px rgba(0,0,0,.5);animation:pop .25s ease}
+  .reg .card{margin-bottom:14px}
+  .reg h3{color:var(--navy);margin-bottom:10px;font-size:16px}
+  .reg p{margin:0 0 9px;font-size:14px;line-height:1.65}
+  .reg p:last-child{margin-bottom:0}
   footer{text-align:center;color:var(--muted);font-size:12.5px;padding:26px 16px 40px}
   footer a{color:var(--navy);font-weight:600;text-decoration:none}
   body:not(.editor) .needs-edit{display:none!important}
@@ -233,6 +237,7 @@
   <button data-v="results">🎯 Resultados</button>
   <button data-v="standings">🏆 Classificação</button>
   <button data-v="players">👤 Individual</button>
+  <button data-v="rules">📋 Regulamento</button>
   <button data-v="config">⚙️ Config</button>
 </nav>
 
@@ -314,6 +319,61 @@
     <div class="tbl-wrap"><table id="playersTable"></table></div>
   </section>
 
+  <!-- RULES -->
+  <section class="view" id="v-rules">
+    <div class="sec-h"><span class="bar"></span><h2>Regulamento oficial</h2></div>
+    <p class="sub">Copa Um Saque para a Vida · Davis Cup USPV · temporada 2026 · Squash Tennis Center.</p>
+    <div class="reg">
+      <div class="card"><h3>1 · Objetivo e organização</h3>
+        <p><b>1.1.</b> A Copa Um Saque para a Vida (Davis Cup USPV) é um torneio de tênis por equipes, promovido pelo projeto Um Saque para a Vida, disputado no Squash Tennis Center entre agosto e novembro de 2026.</p>
+        <p><b>1.2.</b> A participação é restrita aos patrocinadores dos programas incentivados do projeto.</p>
+        <p><b>1.3.</b> Cabe à organização a condução do torneio, a interpretação deste regulamento e a decisão sobre os casos omissos.</p>
+      </div>
+      <div class="card"><h3>2 · Equipes, capitão e coach</h3>
+        <p><b>2.1.</b> Participam 10 equipes, cada uma composta por 5 atletas.</p>
+        <p><b>2.2.</b> Cada equipe indicará um <b>Capitão</b> e um <b>Coach (técnico)</b>, que podem ou não ser atletas da equipe.</p>
+        <p><b>2.3.</b> A escalação de cada confronto é definida pelo capitão antes do seu início.</p>
+      </div>
+      <div class="card"><h3>3 · Formato da competição</h3>
+        <p><b>3.1.</b> Sistema de pontos corridos (todos contra todos): cada equipe enfrenta todas as demais uma vez, totalizando 45 confrontos em 9 rodadas.</p>
+        <p><b>3.2.</b> Cada confronto é composto por <b>3 jogos: 2 de simples e 1 de duplas</b>.</p>
+        <p><b>3.3.</b> Vence o confronto a equipe que ganhar 2 dos 3 jogos.</p>
+        <p><b>3.4.</b> Ordem de jogo: Simples 1, Simples 2 e Duplas. Os três jogos são sempre disputados — inclusive quando o confronto já estiver definido — pois seus resultados valem para os critérios de desempate e para a classificação individual.</p>
+        <p><b>3.5.</b> Um mesmo atleta pode disputar um jogo de simples e o jogo de duplas no mesmo confronto.</p>
+      </div>
+      <div class="card"><h3>4 · Pontuação dos jogos (simples e duplas)</h3>
+        <p><b>4.1.</b> Cada jogo é decidido em <b>1 set curto de 8 games</b>.</p>
+        <p><b>4.2.</b> Vence o set quem primeiro alcançar 8 games. Em caso de 7 games a 7, disputa-se um <b>tie-break de 7 pontos</b> (com diferença mínima de 2), que fecha o set em 8/7.</p>
+        <p><b>4.3.</b> Contagem <b>no-ad (sem vantagem)</b>: a cada empate em 40-40 (deuce), disputa-se um <b>único ponto decisivo</b>. Quem recebe escolhe o lado do saque; nas duplas, a dupla recebedora escolhe o lado e quem recebe.</p>
+        <p><b>4.4.</b> Demais regras de pontuação (15, 30, 40), saque com duas tentativas, faltas de pé, <i>let</i> e afins seguem as Regras de Tênis da ITF.</p>
+      </div>
+      <div class="card"><h3>5 · Classificação</h3>
+        <p><b>5.1.</b> Confronto vencido vale <b>3 pontos</b>; confronto perdido, 0 ponto.</p>
+        <p><b>5.2.</b> Critérios de desempate, nesta ordem: (a) confrontos vencidos; (b) saldo de jogos; (c) saldo de sets; (d) saldo de games; (e) confronto direto.</p>
+        <p><b>5.3.</b> Há também classificação individual dos atletas, por número de jogos vencidos (simples e duplas).</p>
+      </div>
+      <div class="card"><h3>6 · Fair play</h3>
+        <p><b>6.1.</b> O <b>fair play é premissa básica</b> da competição. Espera-se conduta respeitosa entre atletas, capitães, coaches, organização e público.</p>
+        <p><b>6.2.</b> Na ausência de árbitro, prevalece a autoarbitragem leal: cada atleta marca as bolas do seu lado da quadra com honestidade; na dúvida, o ponto é do adversário.</p>
+        <p><b>6.3.</b> Condutas antidesportivas sujeitam-se às penalidades do Código de Conduta da ITF (advertência, perda de ponto, perda de game e desqualificação), a critério da organização.</p>
+      </div>
+      <div class="card"><h3>7 · Coaching</h3>
+        <p><b>7.1.</b> O <b>coach pode orientar e instruir</b> os atletas de sua equipe durante toda a partida, inclusive entre pontos e games.</p>
+        <p><b>7.2.</b> A orientação deve respeitar o fair play e não pode atrasar o jogo nem perturbar o adversário.</p>
+      </div>
+      <div class="card"><h3>8 · Público e torcida</h3>
+        <p><b>8.1.</b> A <b>torcida não pode se manifestar durante a disputa dos pontos</b>, mantendo silêncio enquanto a bola estiver em jogo.</p>
+        <p><b>8.2.</b> Aplausos e comemorações são bem-vindos ao término de cada ponto.</p>
+      </div>
+      <div class="card"><h3>9 · Regras gerais e casos omissos</h3>
+        <p><b>9.1.</b> Aplicam-se, no que couber, as demais regras dos torneios <b>Davis Cup da ITF</b> e as Regras de Tênis da ITF.</p>
+        <p><b>9.2.</b> Bolas, quadra e equipamentos seguem o padrão definido pela organização no Squash Tennis Center.</p>
+        <p><b>9.3.</b> Tolerância de atraso: 15 minutos. A equipe ou atleta ausente após esse prazo perde o jogo por W.O.</p>
+        <p><b>9.4.</b> Os casos omissos serão resolvidos pela organização da Copa Um Saque para a Vida.</p>
+      </div>
+    </div>
+  </section>
+
   <!-- CONFIG -->
   <section class="view" id="v-config">
     <div class="sec-h"><span class="bar"></span><h2>Configurações</h2></div>
@@ -366,7 +426,7 @@
 
 <footer>
   Copa <b>Um Saque para a Vida</b> · <a href="https://www.umsaqueparavida.ong.br" target="_blank">umsaqueparavida.ong.br</a> · Squash Tennis Center
-  <br><span style="opacity:.7;font-size:11.5px">versão 3.0 · conectado à nuvem (Supabase)</span>
+  <br><span style="opacity:.7;font-size:11.5px">versão 3.2 · regulamento + coach · nuvem conectada</span>
 </footer>
 
 <!-- TEAM MODAL -->
@@ -382,6 +442,9 @@
     <div class="row" style="margin-top:12px">
       <div style="flex:1;min-width:180px"><label class="fld">Programa / patrocinador</label><input id="teamProgram" placeholder="Programa incentivado"></div>
       <div style="flex:1;min-width:180px"><label class="fld">Capitão</label><input id="teamCaptain" placeholder="Nome do capitão"></div>
+    </div>
+    <div class="row" style="margin-top:12px">
+      <div style="flex:1;min-width:180px"><label class="fld">Coach / Técnico</label><input id="teamCoach" placeholder="Nome do coach da equipe"></div>
     </div>
     <label class="fld" style="margin-top:16px">Atletas (5)</label>
     <div id="athleteInputs"></div>
@@ -2245,6 +2308,7 @@ function openTeamModal(id){
   document.getElementById('teamColor').value=t?t.color:'#1c4e77';
   document.getElementById('teamProgram').value=t?t.program:'';
   document.getElementById('teamCaptain').value=t?t.captain:'';
+  document.getElementById('teamCoach').value=t?t.coach||'':'';
   const box=document.getElementById('athleteInputs');box.innerHTML='';
   for(let i=0;i<5;i++){const a=t&&t.athletes[i]?t.athletes[i]:{name:'',nickname:''};
     const row=document.createElement('div');row.className='athlete-row';
@@ -2258,7 +2322,7 @@ function saveTeam(){
   const name=document.getElementById('teamName').value.trim();if(!name){alert('Informe o nome da equipe.');return;}
   const id=document.getElementById('teamId').value;
   const athletes=[...document.querySelectorAll('#athleteInputs .athlete-row')].map(r=>{const nm=r.querySelector('[data-aname]').value.trim();if(!nm)return null;return{id:r.querySelector('[data-aid]').value||uid(),name:nm,nickname:r.querySelector('[data-anick]').value.trim()};}).filter(Boolean);
-  const data={name,color:document.getElementById('teamColor').value,program:document.getElementById('teamProgram').value.trim(),captain:document.getElementById('teamCaptain').value.trim(),athletes,crest:editImgs.crest,jerseys:editImgs.jerseys.slice()};
+  const data={name,color:document.getElementById('teamColor').value,program:document.getElementById('teamProgram').value.trim(),captain:document.getElementById('teamCaptain').value.trim(),coach:document.getElementById('teamCoach').value.trim(),athletes,crest:editImgs.crest,jerseys:editImgs.jerseys.slice()};
   if(id){Object.assign(teamById(id),data);}else{if(DB.teams.length>=10){alert('Máximo de 10 equipes.');return;}DB.teams.push({id:uid(),...data});}
   save();closeModal('teamModal');renderAll();
 }
@@ -2275,7 +2339,7 @@ function renderTeams(){
             <button class="btn ghost sm needs-edit" onclick="openTeamModal('${t.id}')">Editar</button>
             <button class="btn danger sm needs-edit" onclick="deleteTeam('${t.id}')">✕</button>
           </div></div>
-        <div class="team-meta">${t.program?'<span>🏢 '+esc(t.program)+'</span>':''}${t.captain?'<span>👤 Cap. '+esc(t.captain)+'</span>':''}</div>
+        <div class="team-meta">${t.program?'<span>🏢 '+esc(t.program)+'</span>':''}${t.captain?'<span>👤 Cap. '+esc(t.captain)+'</span>':''}${t.coach?'<span>🎾 Coach '+esc(t.coach)+'</span>':''}</div>
         <div class="roster">${t.athletes.map((a,i)=>`<div class="player-chip ${a.name===t.captain?'cap':''}"><span class="num">${i+1}</span>${esc(a.name)}${a.nickname?' <span style="color:var(--muted)">("'+esc(a.nickname)+'")</span>':''}${a.name===t.captain?'<span class="cap-tag">Titular</span>':''}</div>`).join('')||'<span style="color:var(--muted)">Sem atletas</span>'}</div>
         ${t.jerseys&&t.jerseys.length?`<div class="jersey-gallery">${t.jerseys.map(j=>`<div class="imgthumb jersey" onclick="viewImg(this.querySelector('img').src)"><img src="${j}"></div>`).join('')}</div>`:''}
       </div>
