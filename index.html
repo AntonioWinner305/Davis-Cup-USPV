@@ -2144,7 +2144,8 @@ let DB=load();
 
 function defaultDB(){return{config:{name:'Copa Um Saque para a Vida',venue:'Squash Tennis Center',start:'2026-08-15',end:'2026-11-28',logo:null},teams:[],ties:[]};}
 function load(){try{const r=localStorage.getItem(KEY);if(r)return Object.assign(defaultDB(),JSON.parse(r));}catch(e){}return defaultDB();}
-function saveLocal(){try{localStorage.setItem(KEY,JSON.stringify(DB));}catch(e){}}
+let quotaWarned=false;
+function saveLocal(){try{localStorage.setItem(KEY,JSON.stringify(DB));return true;}catch(e){if(!quotaWarned&&!(cloudReady&&session)){quotaWarned=true;alert('O armazenamento deste navegador ficou cheio (as imagens ocupam espaço). Para guardar tudo com segurança, conecte a nuvem (Supabase) na aba Config, ou envie imagens menores. Enquanto isso, os dados seguem funcionando nesta sessão.');}return false;}}
 function save(){saveLocal();saveRemote();}
 
 /* ============ NUVEM (SUPABASE) ============ */
@@ -2199,9 +2200,9 @@ document.getElementById('tabs').addEventListener('click',e=>{
 
 /* ============ IMAGENS ============ */
 let editImgs={crest:null,jerseys:[]};
-function resizeImg(file,max,cb){const r=new FileReader();r.onload=e=>{const img=new Image();img.onload=()=>{let w=img.width,h=img.height;const sc=Math.min(1,max/Math.max(w,h));w=Math.round(w*sc);h=Math.round(h*sc);const c=document.createElement('canvas');c.width=w;c.height=h;c.getContext('2d').drawImage(img,0,0,w,h);cb(c.toDataURL('image/png'));};img.src=e.target.result;};r.readAsDataURL(file);}
-function uploadCrest(inp){const f=inp.files[0];if(!f)return;resizeImg(f,256,d=>{editImgs.crest=d;renderTeamImgs();});inp.value='';}
-function uploadJerseys(inp){[...inp.files].forEach(f=>resizeImg(f,700,d=>{editImgs.jerseys.push(d);renderTeamImgs();}));inp.value='';}
+function resizeImg(file,max,cb,type,quality){type=type||'image/png';const r=new FileReader();r.onload=e=>{const img=new Image();img.onload=()=>{let w=img.width,h=img.height;const sc=Math.min(1,max/Math.max(w,h));w=Math.max(1,Math.round(w*sc));h=Math.max(1,Math.round(h*sc));const c=document.createElement('canvas');c.width=w;c.height=h;const ctx=c.getContext('2d');if(type==='image/jpeg'){ctx.fillStyle='#fff';ctx.fillRect(0,0,w,h);}ctx.drawImage(img,0,0,w,h);cb(c.toDataURL(type,quality));};img.onerror=()=>alert('Não consegui ler esta imagem. Tente outro arquivo (PNG ou JPG).');img.src=e.target.result;};r.readAsDataURL(file);}
+function uploadCrest(inp){const f=inp.files[0];if(!f)return;resizeImg(f,220,d=>{editImgs.crest=d;renderTeamImgs();},'image/png');inp.value='';}
+function uploadJerseys(inp){[...inp.files].forEach(f=>resizeImg(f,560,d=>{editImgs.jerseys.push(d);renderTeamImgs();},'image/jpeg',0.72));inp.value='';}
 function removeCrest(){editImgs.crest=null;renderTeamImgs();}
 function removeJersey(i){editImgs.jerseys.splice(i,1);renderTeamImgs();}
 function renderTeamImgs(){
@@ -2399,7 +2400,7 @@ function renderHome(){
 /* ============ CONFIG ============ */
 function renderConfig(){document.getElementById('cfgName').value=DB.config.name;document.getElementById('cfgVenue').value=DB.config.venue;document.getElementById('cfgStart').value=DB.config.start;document.getElementById('cfgEnd').value=DB.config.end;const c=cloudCfg();var u=document.getElementById('cfgUrl');if(u){u.value=c.url||'';document.getElementById('cfgKey').value=c.anonKey||'';document.getElementById('cfgChamp').value=c.champId||'';}var st=document.getElementById('cloudStateTxt');if(st)st.innerHTML=!cloudReady?'Status: <b>modo local</b> (não conectado).':(session?'Status: <b>conectado</b> · logado como '+esc(session.user.email)+'.':'Status: <b>conectado</b> · somente leitura (faça login para editar).');}
 function saveConfigField(f,v){DB.config[f]=v;save();if(f==='name'){document.getElementById('hdrTitle').textContent=v;}renderHeroBadges();}
-function uploadLogo(inp){const f=inp.files[0];if(!f)return;const r=new FileReader();r.onload=e=>{DB.config.logo=e.target.result;save();applyLogo();};r.readAsDataURL(f);}
+function uploadLogo(inp){const f=inp.files[0];if(!f)return;resizeImg(f,240,d=>{DB.config.logo=d;save();applyLogo();},'image/png');inp.value='';}
 function removeLogo(){DB.config.logo=null;save();document.getElementById('hdrLogo').src=DEFAULT_LOGO;}
 function applyLogo(){document.getElementById('hdrLogo').src=DB.config.logo||DEFAULT_LOGO;}
 function renderHeroBadges(){document.getElementById('heroBadges').innerHTML=`<span class="hero-chip">📍 ${esc(DB.config.venue||'—')}</span><span class="hero-chip">🗓️ <b>Ago–Nov 2026</b></span><span class="hero-chip">🛡️ <b>${DB.teams.length}</b> equipes</span><span class="hero-chip">🎾 <b>${DB.ties.length}</b> confrontos</span>`;}
