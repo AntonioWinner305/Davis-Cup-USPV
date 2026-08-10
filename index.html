@@ -113,7 +113,12 @@
   .team-meta{color:var(--muted);font-size:12.5px;margin:6px 0 12px;display:flex;gap:12px;flex-wrap:wrap}
   .team-meta span{display:inline-flex;gap:5px;align-items:center}
   .roster{display:flex;flex-direction:column;gap:6px}
-  .player-chip{display:flex;align-items:center;gap:9px;padding:7px 10px;border-radius:10px;background:var(--navy-l);font-size:14px}
+  .player-chip{display:grid;grid-template-columns:24px minmax(0,1fr) 66px 84px;align-items:center;gap:8px;padding:8px 11px;border-radius:10px;background:var(--navy-l);font-size:14px}
+  .pname{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .pcol{font-size:11px;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .pcol.lvl{color:var(--navy)}
+  .pcol.ori{color:var(--muted);font-weight:600}
+  .tit-star{color:var(--orange)}
   .player-chip .num{width:22px;height:22px;border-radius:6px;background:var(--navy);color:#fff;font-size:12px;font-weight:800;display:flex;align-items:center;justify-content:center;flex:none}
   .player-chip.cap{background:var(--orange-l)}
   .player-chip.cap .num{background:var(--orange)}
@@ -444,7 +449,7 @@
 
 <footer>
   Copa <b>Um Saque para a Vida</b> · <a href="https://www.umsaqueparavida.ong.br" target="_blank">umsaqueparavida.ong.br</a> · USPV Eventos
-  <br><span style="opacity:.7;font-size:11.5px">versão 3.9 · classe e origem do atleta · nuvem conectada</span>
+  <br><span style="opacity:.7;font-size:11.5px">versão 4.0 · classe e origem em colunas · nuvem conectada</span>
 </footer>
 
 <!-- TEAM MODAL -->
@@ -641,7 +646,7 @@ function renderTeams(){
             <button class="btn danger sm needs-edit" onclick="deleteTeam('${t.id}')">✕</button>
           </div></div>
         <div class="team-meta">${t.program?'<span>🏢 '+esc(t.program)+'</span>':''}${t.captain?'<span>👤 Cap. '+esc(t.captain)+'</span>':''}${t.coach?'<span>🎾 Coach '+esc(t.coach)+'</span>':''}</div>
-        <div class="roster">${t.athletes.map((a,i)=>`<div class="player-chip ${a.name===t.captain?'cap':''}"><span class="num">${i+1}</span>${esc(a.name)}${a.nickname?' <span style="color:var(--muted)">("'+esc(a.nickname)+'")</span>':''}${a.classe?' <span class="lvl-tag">'+esc(a.classe)+'</span>':''}${a.origin?'<span class="ori-tag">'+esc(a.origin)+'</span>':''}${a.name===t.captain?'<span class="cap-tag">Titular</span>':''}</div>`).join('')||'<span style="color:var(--muted)">Sem atletas</span>'}</div>
+        <div class="roster">${t.athletes.map((a,i)=>{const cap=a.name===t.captain;return '<div class="player-chip '+(cap?'cap':'')+'"><span class="num">'+(i+1)+'</span><span class="pname">'+esc(a.name)+(cap?' <span class="tit-star" title="Titular">★</span>':'')+(a.nickname?' <span style="color:var(--muted);font-weight:400">("'+esc(a.nickname)+'")</span>':'')+'</span><span class="pcol lvl">'+(a.classe?esc(a.classe):'')+'</span><span class="pcol ori">'+(a.origin?esc(a.origin):'')+'</span></div>';}).join('')||'<span style="color:var(--muted)">Sem atletas</span>'}</div>
         ${t.jerseys&&t.jerseys.length?`<div class="jersey-gallery">${t.jerseys.map(j=>`<div class="imgthumb jersey" onclick="viewImg(this.querySelector('img').src)"><img src="${j}"></div>`).join('')}</div>`:''}
       </div>
     </div>`).join('');
