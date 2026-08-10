@@ -189,7 +189,10 @@
   .modal-actions{position:sticky;bottom:0;background:#fff;margin:20px -26px -26px;padding:16px 26px;border-top:1px solid var(--line);border-radius:0 0 20px 20px;z-index:2}
   .modal h3{font-size:20px;font-weight:800;margin-bottom:16px}
   .close-x{float:right;cursor:pointer;color:var(--muted);font-size:26px;line-height:1;border:0;background:0;margin:-6px -6px 0 0}
-  .athlete-row{display:flex;gap:9px;align-items:center;margin-bottom:9px}
+  .athlete-row{display:flex;gap:9px;align-items:center;margin-bottom:10px;flex-wrap:wrap}
+  .athlete-row select{padding:8px 9px;font-size:13px}
+  .lvl-tag{font-size:10px;font-weight:800;color:var(--navy);background:#fff;border:1px solid var(--line);padding:2px 8px;border-radius:20px;text-transform:uppercase;letter-spacing:.3px}
+  .ori-tag{font-size:10px;font-weight:700;color:var(--muted);background:#f0f4f9;padding:2px 8px;border-radius:20px}
   .athlete-row .n{width:24px;color:var(--muted);font-weight:800;text-align:center;flex:none}
   .rubber-box{border:1.5px solid var(--line);border-radius:14px;padding:15px;margin-bottom:14px;background:#fafcfe}
   .rubber-box h4{font-size:14px;color:var(--navy);margin-bottom:12px;display:flex;align-items:center;gap:8px;font-weight:800}
@@ -441,7 +444,7 @@
 
 <footer>
   Copa <b>Um Saque para a Vida</b> · <a href="https://www.umsaqueparavida.ong.br" target="_blank">umsaqueparavida.ong.br</a> · USPV Eventos
-  <br><span style="opacity:.7;font-size:11.5px">versão 3.8 · custeio no regulamento · nuvem conectada</span>
+  <br><span style="opacity:.7;font-size:11.5px">versão 3.9 · classe e origem do atleta · nuvem conectada</span>
 </footer>
 
 <!-- TEAM MODAL -->
@@ -605,7 +608,12 @@ function openTeamModal(id){
   const box=document.getElementById('athleteInputs');box.innerHTML='';
   for(let i=0;i<5;i++){const a=t&&t.athletes[i]?t.athletes[i]:{name:'',nickname:''};
     const row=document.createElement('div');row.className='athlete-row';
-    row.innerHTML=`<span class="n">${i+1}</span><input placeholder="Nome do atleta ${i+1}" value="${esc(a.name)}" data-aname><input placeholder="Apelido" value="${esc(a.nickname||'')}" style="max-width:150px" data-anick><input type="hidden" data-aid value="${a.id||''}">`;
+    row.innerHTML=`<span class="n">${i+1}</span>
+      <input placeholder="Atleta ${i+1}" value="${esc(a.name)}" data-aname style="flex:1 1 150px">
+      <input placeholder="Apelido" value="${esc(a.nickname||'')}" data-anick style="flex:0 1 110px">
+      <select data-aclass style="flex:0 1 118px"><option value="">Classe…</option>${['Estreante','5ª classe','4ª classe','3ª classe','2ª classe','1ª Classe'].map(c=>`<option ${a.classe===c?'selected':''}>${c}</option>`).join('')}</select>
+      <select data-aorigin style="flex:0 1 120px"><option value="">Origem…</option>${['Colaborador','Convidado'].map(o=>`<option ${a.origin===o?'selected':''}>${o}</option>`).join('')}</select>
+      <input type="hidden" data-aid value="${a.id||''}">`;
     box.appendChild(row);}
   editImgs={crest:t?t.crest||null:null,jerseys:t&&t.jerseys?t.jerseys.slice():[]};renderTeamImgs();
   if(!id&&DB.teams.length>=10){alert('Máximo de 10 equipes atingido.');return;}
@@ -614,7 +622,7 @@ function openTeamModal(id){
 function saveTeam(){
   const name=document.getElementById('teamName').value.trim();if(!name){alert('Informe o nome da equipe.');return;}
   const id=document.getElementById('teamId').value;
-  const athletes=[...document.querySelectorAll('#athleteInputs .athlete-row')].map(r=>{const nm=r.querySelector('[data-aname]').value.trim();if(!nm)return null;return{id:r.querySelector('[data-aid]').value||uid(),name:nm,nickname:r.querySelector('[data-anick]').value.trim()};}).filter(Boolean);
+  const athletes=[...document.querySelectorAll('#athleteInputs .athlete-row')].map(r=>{const nm=r.querySelector('[data-aname]').value.trim();if(!nm)return null;return{id:r.querySelector('[data-aid]').value||uid(),name:nm,nickname:r.querySelector('[data-anick]').value.trim(),classe:r.querySelector('[data-aclass]').value,origin:r.querySelector('[data-aorigin]').value};}).filter(Boolean);
   const data={name,color:document.getElementById('teamColor').value,program:document.getElementById('teamProgram').value.trim(),captain:document.getElementById('teamCaptain').value.trim(),coach:document.getElementById('teamCoach').value.trim(),athletes,crest:editImgs.crest,jerseys:editImgs.jerseys.slice()};
   if(id){Object.assign(teamById(id),data);}else{if(DB.teams.length>=10){alert('Máximo de 10 equipes.');return;}DB.teams.push({id:uid(),...data});}
   save();closeModal('teamModal');renderAll();
@@ -633,7 +641,7 @@ function renderTeams(){
             <button class="btn danger sm needs-edit" onclick="deleteTeam('${t.id}')">✕</button>
           </div></div>
         <div class="team-meta">${t.program?'<span>🏢 '+esc(t.program)+'</span>':''}${t.captain?'<span>👤 Cap. '+esc(t.captain)+'</span>':''}${t.coach?'<span>🎾 Coach '+esc(t.coach)+'</span>':''}</div>
-        <div class="roster">${t.athletes.map((a,i)=>`<div class="player-chip ${a.name===t.captain?'cap':''}"><span class="num">${i+1}</span>${esc(a.name)}${a.nickname?' <span style="color:var(--muted)">("'+esc(a.nickname)+'")</span>':''}${a.name===t.captain?'<span class="cap-tag">Titular</span>':''}</div>`).join('')||'<span style="color:var(--muted)">Sem atletas</span>'}</div>
+        <div class="roster">${t.athletes.map((a,i)=>`<div class="player-chip ${a.name===t.captain?'cap':''}"><span class="num">${i+1}</span>${esc(a.name)}${a.nickname?' <span style="color:var(--muted)">("'+esc(a.nickname)+'")</span>':''}${a.classe?' <span class="lvl-tag">'+esc(a.classe)+'</span>':''}${a.origin?'<span class="ori-tag">'+esc(a.origin)+'</span>':''}${a.name===t.captain?'<span class="cap-tag">Titular</span>':''}</div>`).join('')||'<span style="color:var(--muted)">Sem atletas</span>'}</div>
         ${t.jerseys&&t.jerseys.length?`<div class="jersey-gallery">${t.jerseys.map(j=>`<div class="imgthumb jersey" onclick="viewImg(this.querySelector('img').src)"><img src="${j}"></div>`).join('')}</div>`:''}
       </div>
     </div>`).join('');
